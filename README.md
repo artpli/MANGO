@@ -22,13 +22,13 @@ Our MANGO benchmark will facilitate future research on methods that improve the 
 git clone https://github.com/Oaklight/mango.git
 cd mango
 
-conda create -f env/environment.yml --name mango
+conda create -n mango python=3.11 -y
 conda activate mango
 
-# for inference only
-pip install -r env/infer_requirements.txt
-# for evaluation only
-pip install -r env/eval_requirements.txt
+# for evaluation
+pip install -e .
+# for evaluation+inference
+pip install -e .[infer]
 ```
 
 ## Dataset

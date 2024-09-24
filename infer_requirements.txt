@@ -1,7 +1,6 @@
 anthropic==0.26.0
 huggingface-hub==0.23.0
--e git+ssh://git@github.com/meta-llama/llama.git@be327c427cc5e89cc1d3ab3d3fec4484df771245#egg=llama
-networkx==3.3
+llama @ git+ssh://git@github.com/meta-llama/llama.git@be327c427cc5e89cc1d3ab3d3fec4484df771245
 openai==0.28.0
 rwkv==0.8.26
 tenacity==8.3.0
@@ -9,4 +8,3 @@ tiktoken==0.7.0
 tokenizers==0.19.1
 torch==2.3.0
 tqdm==4.66.4
-fire==0.6.0
