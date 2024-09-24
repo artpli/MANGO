@@ -88,7 +88,7 @@ Make sure the `response` field is a list of dictionaries with the required keys,
 [{"location_before": "driveway", "action": "north", "location_after": "living room"}, ...]
 ```
 
-You can customize the key names in `mango/mango/evaluation/config.py`. For example:
+You can customize the key names in `mango/evaluation/config.py`. For example:
 
 ```python
 "location_before": "location_before" --> "location_before": "prev_location"
