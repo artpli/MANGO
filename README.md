@@ -66,6 +66,7 @@ python mango/inference/main.py --exp_tag debug --data_folder ./data --save_folde
 ```
 
 ## Evaluation
+The Evaluation script currently supports 70-step data and full data except for the game `curse` (it would be a curse on your compute).
 
 Evaluation can be performed using the script located at `mango/evaluation/scripts/evaluate.py`.
 
