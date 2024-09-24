@@ -95,6 +95,11 @@ You can customize the key names in `mango/mango/evaluation/config.py`. For examp
 ```
 
 ### Evaluation Examples
+Check Arguments:
+
+```bash
+mango-eval --help
+```
 
 For destination-finding:
 
