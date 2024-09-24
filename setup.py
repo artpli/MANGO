@@ -28,4 +28,9 @@ setup(
     extras_require={
         'infer': infer_requirement,  # Optional installation from infer_requirements.txt
     },
+    entry_points={
+        'console_scripts': [
+            'mango-eval=mango.cli:main',
+        ],
+    },
 )

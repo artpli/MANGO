@@ -143,7 +143,7 @@ class MapEvaluator:
                 infer_rst = json.load(f)
             except Exception as e:
                 return_rst["parsing_error"] = 1
-                print(file_path)
+                print('file parsing error: ',file_path)
                 return return_rst
 
         sample_id = infer_rst[key_mapping["sample_id"]]
@@ -158,7 +158,7 @@ class MapEvaluator:
 
         if "[" in response and "]" in response:
             if parsed_response is None:
-                print(file_path)
+                print('file parsing error: ',file_path)
         if sample_id not in self.all_pairs.keys():
             return_rst["id_error"] = 1
             return return_rst
@@ -219,7 +219,7 @@ class MapEvaluator:
             try:
                 infer_rst = json.load(f)
             except Exception as e:
-                print(file_path)
+                print('file parsing error: ',file_path)
                 return_rst["parsing_error"] = 1
                 return return_rst
         sample_id = infer_rst[key_mapping["sample_id"]]
@@ -258,7 +258,7 @@ class MapEvaluator:
             return_rst["is_easy"] = 1
 
         dst_nodes = self.bfs_get_multi_des(src_node, action_list)
-        print(dst_nodes)
+        #print(dst_nodes)
         return_rst["loose_score"] = (
             max(
                 [
