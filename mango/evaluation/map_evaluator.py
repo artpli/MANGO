@@ -7,8 +7,8 @@ from typing import Optional
 from mango.evaluation.config import KEY_MAPPING
 from mango.evaluation.utils import edit_distance, parse_raw_output
 from mango.evaluation.utils.map_utils import get_game_info_with_G_eval
-
-
+import sys
+import traceback
 class EvalMetric(IntEnum):
     Strict = 0
     Loose = 1
@@ -86,9 +86,9 @@ class MapEvaluator:
                     key=lambda v: self.matching_score(node_action, v, metric),
                 )
                 path_actions.append(action)
-        # print(path_actions)
+        
         dest_nodes = self.bfs_get_multi_des(src_node, path_actions)
-        # print(metric.name,dest_nodes)
+        
         return (
             max([self.matching_score(dst_node, node, metric) for node in dest_nodes])
             if dest_nodes
@@ -145,17 +145,26 @@ class MapEvaluator:
                 return_rst["parsing_error"] = 1
                 print('file parsing error: ',file_path)
                 return return_rst
-
-        sample_id = infer_rst[key_mapping["sample_id"]]
-        game_name = infer_rst[key_mapping["game_name"]]
-        src_node = infer_rst[key_mapping["src_node"]]
-        dst_node = infer_rst[key_mapping["dst_node"]]
-        model_cutoff_num = infer_rst[key_mapping["model_cutoff_num"]]
-        min_step_total_answerable = infer_rst[key_mapping["min_step_total_answerable"]]
-        answerable = infer_rst[key_mapping["answerable"]]
-        response = infer_rst[key_mapping["response"]]
-        parsed_response = self.parse_llm_raw_output(response)
-
+        try:
+            sample_id = infer_rst[key_mapping["sample_id"]]
+            game_name = infer_rst[key_mapping["game_name"]]
+            src_node = infer_rst[key_mapping["src_node"]]
+            dst_node = infer_rst[key_mapping["dst_node"]]
+            model_cutoff_num = infer_rst[key_mapping["model_cutoff_num"]]
+            min_step_total_answerable = infer_rst[key_mapping["min_step_total_answerable"]]
+            answerable = infer_rst[key_mapping["answerable"]]
+            response = infer_rst[key_mapping["response"]]
+        except Exception as e:
+            error_info = traceback.format_exc()
+            print('file parsing error: ',file_path,error_info)
+            return_rst["parsing_error"] = 1
+            return return_rst
+        
+        parsed_response,error_info = self.parse_llm_raw_output(response)
+        if error_info is not None:
+            print('file parsing error: ',file_path,error_info)
+            return_rst["parsing_error"] = 1
+            return return_rst
         if "[" in response and "]" in response:
             if parsed_response is None:
                 print('file parsing error: ',file_path)
@@ -222,20 +231,26 @@ class MapEvaluator:
                 print('file parsing error: ',file_path)
                 return_rst["parsing_error"] = 1
                 return return_rst
-        sample_id = infer_rst[key_mapping["sample_id"]]
-        game_name = infer_rst[key_mapping["game_name"]]
-        src_node = infer_rst[key_mapping["src_node"]]
-        dst_node = infer_rst[key_mapping["dst_node"]]
-        model_cutoff_num = infer_rst[key_mapping["model_cutoff_num"]]
-        min_step_total_answerable = infer_rst[key_mapping["min_step_total_answerable"]]
-        answerable = infer_rst[key_mapping["answerable"]]
-        response = infer_rst[key_mapping["response"]]
-        action_list = infer_rst[key_mapping["action_list"]]
-        parsed_response = self.parse_llm_raw_output(response)
-        # if '[' in response and ']' in response:
-        #     if parsed_response is None:
-        #         print(file_path)
-
+        try:
+            sample_id = infer_rst[key_mapping["sample_id"]]
+            game_name = infer_rst[key_mapping["game_name"]]
+            src_node = infer_rst[key_mapping["src_node"]]
+            dst_node = infer_rst[key_mapping["dst_node"]]
+            model_cutoff_num = infer_rst[key_mapping["model_cutoff_num"]]
+            min_step_total_answerable = infer_rst[key_mapping["min_step_total_answerable"]]
+            answerable = infer_rst[key_mapping["answerable"]]
+            response = infer_rst[key_mapping["response"]]
+            action_list = infer_rst[key_mapping["action_list"]]
+        except Exception as e:
+            error_info = traceback.format_exc()
+            print('file parsing error: ',file_path,error_info)
+            return_rst["parsing_error"] = 1
+            return return_rst
+        parsed_response,error_info = self.parse_llm_raw_output(response)
+        if error_info is not None:
+            print('file parsing error: ',file_path,error_info)
+            return_rst["parsing_error"] = 1
+            return return_rst
         if sample_id not in self.all2all.keys():
             return_rst["id_error"] = 1
             return return_rst

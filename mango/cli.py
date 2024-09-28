@@ -1,5 +1,6 @@
 # cli.py
 import argparse
+import os
 from mango.evaluation.scripts.evaluate import (
     evaluate_model_dest_finding,
     evaluate_model_route_finding,
@@ -20,6 +21,7 @@ def main():
     parser.add_argument(
         '--map-dir',
         type=str,
+        default='./data',
         help='Directory with map files'
     )
     parser.add_argument(
@@ -30,7 +32,8 @@ def main():
     )
 
     args = parser.parse_args()
-
+    rst_dir_name = os.path.basename(args.rst_dir)
+    args.output_dir = os.path.join(args.output_dir, rst_dir_name)
     if args.mode == 'rf':
         evaluate_model_route_finding(args.rst_dir, args.map_dir, args.output_dir)
     elif args.mode == 'df':
